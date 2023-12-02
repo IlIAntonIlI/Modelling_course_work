@@ -50,7 +50,7 @@ class Model {
 
       if (this.#currentTime / statisticsStartTime > 1) {
         this.#elements.forEach((element) => {
-          if (element.inElementIfNotBlockedAndBusy) {
+          if (element?.isProcessBlockedInEnabled?.()) {
             element.inElementIfNotBlockedAndBusy();
           }
         });

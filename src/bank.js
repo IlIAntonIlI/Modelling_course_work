@@ -91,7 +91,7 @@ const switchQueue = () => {
 const doModelStatistics = (delta) => {
   result.avgNumOfClientsInside =
     result.avgNumOfClientsInside +
-    delta * (bankWorker1.getQueue().length + bankWorker2.getQueue().length + 2);
+    delta * (bankWorker1.getQueue().length + bankWorker2.getQueue().length + bankWorker1.countOfProcessingOrWaiting + bankWorker2.countOfProcessingOrWaiting);
 };
 
 const resetModelStatistics = () => {
@@ -114,15 +114,16 @@ const model = new Model([
 model.simulate(modelingTime, statisticsStartTime, doModelStatistics, resetModelStatistics, [switchQueue]);
 
 //output stats
+const time = modelingTime - statisticsStartTime;
 console.log("\n---------MODEL STATS---------");
 console.log("CREATOR quantity", creator.getQuantity());
 console.log(
   "Average number of clients inside bank:",
-  result.avgNumOfClientsInside / modelingTime
+  result.avgNumOfClientsInside / time
 );
 console.log(
   "Average interval between outs:",
-  (modelingTime / (bankWorker1.getQuantity() + bankWorker2.getQuantity() + 1)),
+  (time / (bankWorker1.getQuantity() + bankWorker2.getQuantity()))
 );
 
 console.log(

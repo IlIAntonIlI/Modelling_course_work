@@ -48,6 +48,7 @@ outOfBankNarrowToStreet.defaultDelayOptions = {
   },
 };
 outOfBankNarrowToStreet.setName("Car out of bank narrow to road");
+outOfBankNarrowToStreet.setIsProcessBlockedInEnabled(true);
 
 const crossRoad = new Process(Number.MAX_SAFE_INTEGER);
 crossRoad.defaultDelayOptions = {
@@ -214,29 +215,3 @@ console.log(
   (queue1.getFailures() + queue2.getFailures()) / creator.getQuantity()
 );
 console.log("Count of queue changes:", result.countQueueChanges);
-
-
-// console.log(
-//   "Queue1 final length: ",
-//   queue1.length
-// );
-
-// console.log(
-//   "Queue2 final length: ",
-//   queue2.length
-// );
-
-// console.log(
-//   "Queue3 final length: ",
-//   queue3.length
-// );
-
-// console.log(
-//   "Final count of clients bankWorker1: ",
-//   bankWorker1.countOfProcessingOrWaiting
-// );
-
-// console.log(
-//   "Final count of clients bankWorker1: ",
-//   bankWorker2.countOfProcessingOrWaiting
-// );

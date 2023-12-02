@@ -8,6 +8,7 @@ class Process extends Element {
   #workersTasks = [];
   #processedTasks = [];
   #useProcessedTasks = false;
+  #isProcessBlockedInEnabled = false;
   #updateBeforeOut = (task) => task.element;
 
   constructor(nWorkers, helpers) {
@@ -53,7 +54,8 @@ class Process extends Element {
     );
 
     const queue = this.getMostPriorityQueueWithItems(super.getQueues());
-    if (queue?.length > 0 && this.canIn()) {
+    const queueNextElement = queue?.getNextElement();
+    if (queue?.length > 0 && this.canIn() && queueNextElement) {
       const element = queue.outAct();
 
       const endTime = super.getCurrentTime() + this.getDelay(element);
@@ -117,7 +119,8 @@ class Process extends Element {
     this.#processedTasks.shift();
 
     const queue = this.getMostPriorityQueueWithItems(super.getQueues());
-    if (queue?.length > 0 && this.countOfProcessingOrWaiting < this.#nWorkers) {
+    const queueNextElement = queue?.getNextElement();
+    if (queue?.length > 0 && this.canIn() && queueNextElement) {
       const element = queue.outAct();
 
       const endTime = super.getCurrentTime() + this.getDelay(element);
@@ -173,7 +176,7 @@ class Process extends Element {
   }
 
   doStatistics(delta) {
-    if (this.#workersTasks.length > 0) {
+    if (this.countOfProcessingOrWaiting > 0) {
       this.#busyTime += delta;
     }
   }
@@ -201,6 +204,14 @@ class Process extends Element {
 
   enableProcessedTasks() {
     this.#useProcessedTasks = true;
+  }
+
+  setIsProcessBlockedInEnabled(val) {
+    this.#isProcessBlockedInEnabled = val;
+  }
+  
+  isProcessBlockedInEnabled(){
+    return this.#isProcessBlockedInEnabled;
   }
 
   get countOfProcessingOrWaiting() {
