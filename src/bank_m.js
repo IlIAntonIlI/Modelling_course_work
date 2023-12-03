@@ -169,8 +169,8 @@ const resetModelStatistics = () => {
   result.countQueueChanges = 0;
 };
 
-const modelingTime = 1000;
-const statisticsStartTime = 0;
+const modelingTime = 11000;
+const statisticsStartTime = 8000;
 const model = new Model([
   creator,
   block1,

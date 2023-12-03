@@ -27,10 +27,10 @@ class Model {
       });
 
       this.#elements.forEach((element) => {
+        element.doStatistics?.(this.#nextItemStartTime - this.#currentTime);
         if (!isReseted && this.#nextItemStartTime / statisticsStartTime > 1) {
           element.resetStats();
         }
-        element.doStatistics?.(this.#nextItemStartTime - this.#currentTime);
       });
       doModelStatistics?.(this.#nextItemStartTime - this.#currentTime);
 
